@@ -1,0 +1,119 @@
+import 'package:chat_app/models/user_model.dart';
+import 'package:chat_app/routes/routes.dart';
+import 'package:chat_app/services/euth_service.dart';
+import 'package:chat_app/services/firestore_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:toastification/toastification.dart';
+
+class LoginController extends GetxController {
+  RxBool isPasswordVisible = false.obs;
+
+  void changePasswordVisibility() {
+    isPasswordVisible.value = !isPasswordVisible.value;
+  }
+
+  Future<void> loginNewUser(
+      {required String email, required String password}) async {
+    var msg = await AuthService.authService.loginUser(
+      email: email,
+      password: password,
+    );
+    if (msg == "Success") {
+      Get.offNamed(Routes.home);
+
+      // toastification.show(
+      //   title: const Text("Success"),
+      //   description: const Text("Login Success 😊"),
+      //   autoCloseDuration: const Duration(
+      //     seconds: 2,
+      //   ),
+      //   type: ToastificationType.success,
+      //   style: ToastificationStyle.flat,
+      // );
+      Get.snackbar("Success", msg);
+    } else {
+      // toastification.show(
+      //   title: const Text("Error"),
+      //   description: Text(
+      //     msg,
+      //   ),
+      //   autoCloseDuration: const Duration(
+      //     seconds: 2,
+      //   ),
+      //   type: ToastificationType.error,
+      //   style: ToastificationStyle.flat,
+      // );
+      Get.snackbar("Error", msg);
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    String msg = await AuthService.authService.loginWithGoogle();
+    if (msg == "Success") {
+      Get.offNamed(Routes.home);
+      var user = AuthService.authService.currentUser;
+
+      if (user != null) {
+        await FireStoreService.fireStoreService.addUser(
+          user: UserModel(
+            uid: user.uid,
+            name: user.displayName ?? "",
+            email: user.email ?? "",
+            password: "",
+            image: user.photoURL ?? "",
+            token: await FirebaseMessaging.instance.getToken() ?? "",
+          ),
+        );
+      }
+    }
+    //   toastification.show(
+    //     title: const Text("Success"),
+    //     description: const Text("Login Success 😊"),
+    //     autoCloseDuration: const Duration(
+    //       seconds: 2,
+    //     ),
+    //     type: ToastificationType.success,
+    //     style: ToastificationStyle.flat,
+    //   );
+    // } else {
+    //   toastification.show(
+    //     title: const Text("Error"),
+    //     description: Text(msg),
+    //     autoCloseDuration: const Duration(
+    //       seconds: 2,
+    //     ),
+    //     type: ToastificationType.error,
+    //     style: ToastificationStyle.flat,
+    //   );
+    // }
+  }
+
+  void anonymousLogin() async {
+    User? msg = await AuthService.authService.anonymousLogin();
+    if (msg != null) {
+      Get.offNamed(Routes.home);
+      toastification.show(
+        title: const Text("Success"),
+        description: const Text("Login Success 😊"),
+        autoCloseDuration: const Duration(
+          seconds: 2,
+        ),
+        type: ToastificationType.success,
+        style: ToastificationStyle.flat,
+      );
+    } else {
+      toastification.show(
+        title: const Text("Error"),
+        description: Text("$msg"),
+        autoCloseDuration: const Duration(
+          seconds: 2,
+        ),
+        type: ToastificationType.error,
+        style: ToastificationStyle.flat,
+      );
+    }
+  }
+}

@@ -1,0 +1,212 @@
+import 'package:chat_app/controllers/login_controller.dart';
+import 'package:chat_app/helper/extension.dart';
+import 'package:chat_app/helper/extentions.dart';
+import 'package:chat_app/routes/routes.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    var loginKey = GlobalKey<FormState>();
+
+    var controller = Get.put(LoginController());
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Image.asset(
+            //   'assets/gif/login.gif',
+            //   fit: BoxFit.cover,
+            // ),
+            const SizedBox(
+              height: 250,
+              width: 250,
+              child: Image(
+                image: AssetImage("assets/gif/login.gif"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            10.h,
+            Expanded(
+              flex: 2,
+              child: SingleChildScrollView(
+                child: Form(
+                  key: loginKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Login',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      10.h,
+                      TextFormField(
+                        controller: emailController,
+                        validator: (value) => value!.isEmpty
+                            ? "required email"
+                            : (!value.isVerifyEmail())
+                                ? "email is not valid"
+                                : null,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.email),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(14),
+                            ),
+                          ),
+                          hintText: 'Email',
+                        ),
+                      ),
+                      10.h,
+                      const Text(
+                        'Password',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      10.h,
+                      Obx(() {
+                        return TextFormField(
+                          obscureText: controller.isPasswordVisible.value,
+                          controller: passwordController,
+                          validator: (value) =>
+                              value!.isEmpty ? "required password" : null,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                controller.changePasswordVisibility();
+                              },
+                              icon: Icon(controller.isPasswordVisible.value
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                            ),
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(14),
+                              ),
+                            ),
+                            hintText: 'Password',
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                minimumSize: const Size.fromHeight(50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                backgroundColor: Colors.blue,
+                textStyle: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {
+                if (loginKey.currentState!.validate()) {
+                  controller.loginNewUser(
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
+                  );
+                }
+              },
+              child: const Text('Login'),
+            ),
+            20.h,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    controller.signInWithGoogle();
+                  },
+                  child: const CircleAvatar(
+                    radius: 25,
+                    backgroundImage: AssetImage("assets/image/google.png"),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    controller.anonymousLogin();
+                  },
+                  child: const CircleAvatar(
+                    radius: 30,
+                    backgroundImage: AssetImage(
+                      "assets/image/guest.jpeg",
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    // controller.anonymousLogin();
+                  },
+                  child: const CircleAvatar(
+                    radius: 23,
+                    backgroundImage: AssetImage(
+                      "assets/image/facebook.png",
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    // controller.anonymousLogin();
+                  },
+                  child: const CircleAvatar(
+                    radius: 23,
+                    backgroundImage: AssetImage(
+                      "assets/image/github.png",
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            30.h,
+            Text.rich(
+              TextSpan(
+                children: [
+                  const TextSpan(
+                    text: 'Don\'t have an account? ',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Sign Up',
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Get.offNamed(Routes.register);
+                      },
+                    style: const TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
