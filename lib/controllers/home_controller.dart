@@ -3,6 +3,6 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   Future<void> singOut() async {
-    await AuthService.authService.logOut();
+    await AuthService.authServices.logOut();
   }
 }

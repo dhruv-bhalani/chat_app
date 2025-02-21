@@ -1,12 +1,11 @@
+import 'package:chat_app/controllers/login_controller.dart';
 import 'package:chat_app/controllers/register_controller.dart';
 import 'package:chat_app/helper/extension.dart';
 import 'package:chat_app/helper/extentions.dart';
 import 'package:chat_app/routes/routes.dart';
-import 'package:chat_app/screens/auth/loginScreen/view/loginscreen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:toastification/toastification.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -24,99 +23,115 @@ class _RegisterScreenState extends State<RegisterScreen> {
     TextEditingController usernameController = TextEditingController();
 
     var registerKey = GlobalKey<FormState>();
-
+    var controllers = Get.put(LoginController());
     var controller = Get.put(RegisterController());
     return Scaffold(
-      backgroundColor: Colors.white,
+      // resizeToAvoidBottomInset: false,
+      backgroundColor: const Color(0xffe1f5ff),
       body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Image.asset(
-            //   'assets/gif/signup.gif',
-            //   fit: BoxFit.cover,
-            // ),
-            const SizedBox(
-              height: 250,
-              width: 250,
-              child: Image(
-                image: AssetImage("assets/gif/signup.gif"),
-                fit: BoxFit.cover,
+        padding:
+            const EdgeInsets.only(top: 70, left: 16, right: 16, bottom: 16),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 170,
+                width: 170,
+                child: Image(
+                  image: AssetImage(
+                    "assets/image/sign.png",
+                  ),
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            Expanded(
-              flex: 6,
-              child: SingleChildScrollView(
-                child: Form(
-                  key: registerKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Username',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      10.h,
-                      TextFormField(
-                        controller: usernameController,
-                        validator: (value) =>
-                            value!.isEmpty ? 'Enter Username' : null,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.email),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(14),
-                            ),
+              40.h,
+              Form(
+                key: registerKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Username',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    10.h,
+                    TextFormField(
+                      controller: usernameController,
+                      validator: (value) =>
+                          value!.isEmpty ? 'Enter Username' : null,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.person),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(14),
                           ),
-                          hintText: 'Username',
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
+                        ),
+                        hintText: 'Username',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(14),
                           ),
-                          enabledBorder: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(14),
+                          ),
                         ),
                       ),
-                      10.h,
-                      const Text(
-                        'Login',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      10.h,
-                      TextFormField(
-                        controller: emailController,
-                        validator: (value) => value!.isEmpty
-                            ? "Required Email"
-                            : (!value.isVerifyEmail())
-                                ? "Email is not valid"
-                                : null,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.email),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(14),
-                            ),
+                    ),
+                    10.h,
+                    const Text(
+                      'Login',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    10.h,
+                    TextFormField(
+                      controller: emailController,
+                      validator: (value) => value!.isEmpty
+                          ? "Required Email"
+                          : (!value.isVerifyEmail())
+                              ? "Email is not valid"
+                              : null,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.email),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(14),
                           ),
-                          hintText: 'Email',
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
+                        ),
+                        hintText: 'Email',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(14),
                           ),
-                          enabledBorder: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(14),
+                          ),
                         ),
                       ),
-                      10.h,
-                      const Text(
-                        'Password',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      10.h,
-                      Obx(() {
+                    ),
+                    10.h,
+                    const Text(
+                      'Password',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    10.h,
+                    Obx(
+                      () {
                         return TextFormField(
                           obscureText: controller.isPasswordVisible.value,
                           controller: passwordController,
@@ -141,21 +156,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: Colors.grey,
                               fontWeight: FontWeight.w400,
                             ),
-                            enabledBorder: const OutlineInputBorder(),
-                            focusedBorder: const OutlineInputBorder(),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(14),
+                              ),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(14),
+                              ),
+                            ),
                           ),
                         );
-                      }),
-                      10.h,
-                      const Text(
-                        'Confirm Password',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      10.h,
-                      Obx(() {
+                      },
+                    ),
+                    10.h,
+                    const Text(
+                      'Confirm Password',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    10.h,
+                    Obx(
+                      () {
                         return TextFormField(
-                          obscureText: controller.isPasswordVisible.value,
+                          obscureText:
+                              controller.isConfirmPasswordVisible.value,
                           controller: cPasswordController,
                           validator: (value) => value!.isEmpty
                               ? "Required Confirm Password"
@@ -180,87 +206,122 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: Colors.grey,
                               fontWeight: FontWeight.w400,
                             ),
-                            enabledBorder: const OutlineInputBorder(),
-                            focusedBorder: const OutlineInputBorder(),
+                            enabledBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(14),
+                              ),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(14),
+                              ),
+                            ),
                           ),
                         );
-                      }),
-                    ],
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              30.h,
+              TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size.fromHeight(50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  backgroundColor: Colors.blue,
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                minimumSize: const Size.fromHeight(50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                backgroundColor: Colors.blue,
-                textStyle: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onPressed: () async {
-                if (registerKey.currentState!.validate()) {
-                  String username = usernameController.text.trim();
-                  String email = emailController.text.trim();
-                  String password = passwordController.text.trim();
-                  String cPassword = cPasswordController.text.trim();
-                  if (password == cPassword) {
-                    await controller.registerNewUser(
-                        email: email,
-                        password: password,
-                        username: username,
-                        image: "");
-                    await controller.registerNewUser(
-                      email: email,
-                      password: password,
-                      username: username,
-                      image: "",
-                    );
-                  } else {
-                    toastification.show(
-                      title: const Text("Error"),
-                      description: const Text("Password doesn't match"),
-                      autoCloseDuration: const Duration(
-                        seconds: 2,
-                      ),
-                      type: ToastificationType.error,
-                      style: ToastificationStyle.flat,
-                    );
+                onPressed: () async {
+                  if (registerKey.currentState!.validate()) {
+                    String username = usernameController.text.trim();
+                    String email = emailController.text.trim();
+                    String password = passwordController.text.trim();
+                    String cPassword = cPasswordController.text.trim();
+                    if (password == cPassword) {
+                      await controller.registerNewUser(
+                          email: email,
+                          password: password,
+                          username: username,
+                          image: "");
+                    } else {
+                      Get.snackbar("Error", "Password doesn't match");
+                    }
                   }
-                }
-              },
-              child: const Text('Login'),
-            ),
-            20.h,
-            Text.rich(
-              TextSpan(
+                },
+                child: const Text('Sign Up'),
+              ),
+              45.h,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const TextSpan(
-                    text: 'Don\'t have an account? ',
-                    style: TextStyle(
-                      color: Colors.black,
+                  GestureDetector(
+                    onTap: () {
+                      controllers.googleLogin();
+                    },
+                    child: const CircleAvatar(
+                      radius: 25,
+                      backgroundImage: AssetImage("assets/image/google.png"),
                     ),
                   ),
-                  TextSpan(
-                    text: 'Login Now',
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Get.offNamed(Routes.login);
-                      },
-                    style: const TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                  // 15.w,
+                  GestureDetector(
+                    onTap: () {
+                      // controller.anonymousLogin();
+                    },
+                    child: const CircleAvatar(
+                      radius: 23,
+                      backgroundImage: AssetImage(
+                        "assets/image/facebook.png",
+                      ),
+                    ),
+                  ),
+                  // 15.w,
+                  GestureDetector(
+                    onTap: () {
+                      controllers.anonymousLogin();
+                    },
+                    child: const CircleAvatar(
+                      radius: 32,
+                      backgroundColor: Color(0xffe1f5ff),
+                      backgroundImage: AssetImage(
+                        "assets/image/guest.png",
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
+              40.h,
+              Text.rich(
+                TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'Don\'t have an account? ',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Login Now',
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Get.offNamed(Routes.login);
+                        },
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

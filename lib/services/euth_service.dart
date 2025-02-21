@@ -4,12 +4,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   AuthService._();
 
-  static AuthService authService = AuthService._();
+  static AuthService authServices = AuthService._();
 
-  FirebaseAuth auths = FirebaseAuth.instance;
   GoogleSignIn signIn = GoogleSignIn();
+  FirebaseAuth auths = FirebaseAuth.instance;
 
-  // Todo: User Register Method
   Future<String> registerUser({
     required String email,
     required String password,
@@ -36,8 +35,6 @@ class AuthService {
     return msg;
   }
 
-// Todo: User Login Method
-
   Future<String> loginUser({
     required String email,
     required String password,
@@ -62,12 +59,11 @@ class AuthService {
     return msg;
   }
 
-  // Todo: Login with Google Method
-
   Future<String> loginWithGoogle() async {
     String msg;
     try {
       GoogleSignInAccount? googleUser = await signIn.signIn();
+
       if (googleUser != null) {
         GoogleSignInAuthentication googleAuth = await googleUser.authentication;
         var credential = GoogleAuthProvider.credential(
@@ -77,7 +73,7 @@ class AuthService {
         await auths.signInWithCredential(credential);
         msg = "Success";
       } else {
-        msg = "not Google Account 😔";
+        msg = "try another way to login ";
       }
     } on FirebaseAuthException catch (e) {
       msg = e.code;

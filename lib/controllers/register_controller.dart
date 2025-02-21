@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:chat_app/models/user_model.dart';
+import 'package:chat_app/routes/routes.dart';
 import 'package:chat_app/services/euth_service.dart';
 import 'package:chat_app/services/firestore_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -22,48 +23,35 @@ class RegisterController extends GetxController {
     isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
   }
 
-  Future<void> registerNewUser({
-    required String email,
-    required String password,
-    required String username,
-    required String image,
-  }) async {
-    String msg = await AuthService.authService.registerUser(
-      email: email,
-      password: password,
-    );
+  Future<void> registerNewUser(
+      {required String email,
+      required String password,
+      required String username,
+      required String image}) async {
+    String msg = await AuthService.authServices
+        .registerUser(email: email, password: password);
     if (msg == "Success") {
-      Get.back();
-      FireStoreService.fireStoreService.addUser(
+      Get.snackbar("Success", msg);
+
+      FireStoreService.service.addUser(
         user: UserModel(
-          uid: AuthService.authService.currentUser?.uid ?? "",
+          uid: AuthService.authServices.currentUser?.uid ?? "",
           name: username,
           email: email,
+          phone: "",
           password: password,
           image: image,
           token: await FirebaseMessaging.instance.getToken() ?? "",
         ),
       );
-      toastification.show(
-        title: const Text("Success"),
-        description: const Text("Registration Success 😊"),
-        autoCloseDuration: const Duration(
-          seconds: 2,
-        ),
-        type: ToastificationType.success,
-        style: ToastificationStyle.flat,
-      );
+
+      Get.offNamed(Routes.login);
+      update();
     } else {
-      toastification.show(
-        title: const Text("Error"),
-        description: Text(msg),
-        autoCloseDuration: const Duration(
-          seconds: 2,
-        ),
-        type: ToastificationType.error,
-        style: ToastificationStyle.flat,
-      );
+      Get.snackbar("Error", msg);
+      update();
     }
+    update();
   }
 
   Future<void> pickUserImage() async {

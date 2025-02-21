@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:chat_app/routes/routes.dart';
+import 'package:chat_app/services/notiFication_sevice.dart';
+import 'package:chat_app/services/notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await permissions();
 
   String? token = await FirebaseMessaging.instance.getToken();
 

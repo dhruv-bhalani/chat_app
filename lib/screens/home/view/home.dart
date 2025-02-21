@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             FutureBuilder(
-              future: FireStoreService.fireStoreService.fetchSingleUser(),
+              future: FireStoreService.service.fetchSingleUser(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(
@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
                     currentAccountPicture: CircleAvatar(
                       radius: 50,
                       backgroundImage: NetworkImage(
-                        AuthService.authService.currentUser!.photoURL ?? "",
+                        AuthService.authServices.currentUser!.photoURL ?? "",
                       ),
                     ),
                     accountName: Text(user.name),
@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
         title: const Text('Chat App'),
       ),
       body: StreamBuilder(
-        stream: FireStoreService.fireStoreService.fetchUsers(),
+        stream: FireStoreService.service.fetchUsers(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -102,7 +102,11 @@ class _HomeState extends State<Home> {
                       backgroundImage: NetworkImage(user.image),
                     ),
                     title: Text(user.name),
-                    subtitle: Text(user.email),
+                    subtitle: const Text("Welcome to Chat ..."),
+                    trailing: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.delete),
+                    ),
                   ),
                 );
               },

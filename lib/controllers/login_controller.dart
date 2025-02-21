@@ -17,102 +17,56 @@ class LoginController extends GetxController {
 
   Future<void> loginNewUser(
       {required String email, required String password}) async {
-    var msg = await AuthService.authService.loginUser(
+    var msg = await AuthService.authServices.loginUser(
       email: email,
       password: password,
     );
     if (msg == "Success") {
       Get.offNamed(Routes.home);
 
-      // toastification.show(
-      //   title: const Text("Success"),
-      //   description: const Text("Login Success 😊"),
-      //   autoCloseDuration: const Duration(
-      //     seconds: 2,
-      //   ),
-      //   type: ToastificationType.success,
-      //   style: ToastificationStyle.flat,
-      // );
       Get.snackbar("Success", msg);
     } else {
-      // toastification.show(
-      //   title: const Text("Error"),
-      //   description: Text(
-      //     msg,
-      //   ),
-      //   autoCloseDuration: const Duration(
-      //     seconds: 2,
-      //   ),
-      //   type: ToastificationType.error,
-      //   style: ToastificationStyle.flat,
-      // );
       Get.snackbar("Error", msg);
     }
   }
 
-  Future<void> signInWithGoogle() async {
-    String msg = await AuthService.authService.loginWithGoogle();
-    if (msg == "Success") {
-      Get.offNamed(Routes.home);
-      var user = AuthService.authService.currentUser;
+  Future<void> googleLogin() async {
+    String msg = await AuthService.authServices.loginWithGoogle();
 
+    if (msg == 'Success') {
+      Get.offNamed(Routes.home);
+      var user = AuthService.authServices.currentUser;
       if (user != null) {
-        await FireStoreService.fireStoreService.addUser(
+        await FireStoreService.service.addUser(
           user: UserModel(
             uid: user.uid,
             name: user.displayName ?? "",
             email: user.email ?? "",
+            phone: "",
             password: "",
             image: user.photoURL ?? "",
             token: await FirebaseMessaging.instance.getToken() ?? "",
           ),
         );
       }
+      Get.snackbar("Success", msg);
+    } else {
+      Get.snackbar("Error", msg);
     }
-    //   toastification.show(
-    //     title: const Text("Success"),
-    //     description: const Text("Login Success 😊"),
-    //     autoCloseDuration: const Duration(
-    //       seconds: 2,
-    //     ),
-    //     type: ToastificationType.success,
-    //     style: ToastificationStyle.flat,
-    //   );
-    // } else {
-    //   toastification.show(
-    //     title: const Text("Error"),
-    //     description: Text(msg),
-    //     autoCloseDuration: const Duration(
-    //       seconds: 2,
-    //     ),
-    //     type: ToastificationType.error,
-    //     style: ToastificationStyle.flat,
-    //   );
-    // }
   }
 
   void anonymousLogin() async {
-    User? msg = await AuthService.authService.anonymousLogin();
+    User? msg = await AuthService.authServices.anonymousLogin();
     if (msg != null) {
       Get.offNamed(Routes.home);
-      toastification.show(
-        title: const Text("Success"),
-        description: const Text("Login Success 😊"),
-        autoCloseDuration: const Duration(
-          seconds: 2,
-        ),
-        type: ToastificationType.success,
-        style: ToastificationStyle.flat,
+      Get.snackbar(
+        "login success",
+        msg.email ?? "",
       );
     } else {
-      toastification.show(
-        title: const Text("Error"),
-        description: Text("$msg"),
-        autoCloseDuration: const Duration(
-          seconds: 2,
-        ),
-        type: ToastificationType.error,
-        style: ToastificationStyle.flat,
+      Get.snackbar(
+        "Error",
+        msg?.email ?? "",
       );
     }
   }

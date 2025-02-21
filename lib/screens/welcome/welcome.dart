@@ -17,19 +17,33 @@ class _WelcomeState extends State<Welcome> {
       body: IntroductionScreen(
         pages: [
           PageViewModel(
+            decoration: const PageDecoration(pageColor: Color(0xffe1f5ff)),
             title: "Welcome",
             body: "Welcome to Chat App",
-            image: Image.asset("assets/image/welcome2.png"),
+            image: Image.asset(
+              "assets/image/welcome2.png",
+              fit: BoxFit.cover,
+            ),
           ),
           PageViewModel(
-            title: "",
-            body: "",
+            decoration: const PageDecoration(pageColor: Color(0xffe1f5ff)),
+            title: "Chat with your friends",
+            body: "Enjoy chat with your friends",
             image: Image.asset('assets/image/welcome.png'),
           ),
         ],
-        done: const Text('Done'),
-        next: const Text('Next'),
-        skip: const Text('Skip'),
+        done: const Text(
+          'Done',
+          style: TextStyle(color: Colors.black),
+        ),
+        next: const Text(
+          'Next',
+          style: TextStyle(color: Colors.black),
+        ),
+        skip: const Text(
+          'Skip',
+          style: TextStyle(color: Colors.black),
+        ),
         onDone: () {
           ShrHelper s = ShrHelper();
           s.shareIntro();
@@ -37,6 +51,7 @@ class _WelcomeState extends State<Welcome> {
         },
         // onSkip: () {},
         showSkipButton: true,
+        globalBackgroundColor: const Color(0xffe1f5ff),
       ),
     );
   }

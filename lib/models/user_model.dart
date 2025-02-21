@@ -2,6 +2,7 @@ class UserModel {
   String uid;
   String name;
   String email;
+  String phone;
   String password;
   String image;
   String token;
@@ -10,6 +11,7 @@ class UserModel {
     required this.uid,
     required this.name,
     required this.email,
+    required this.phone,
     required this.password,
     required this.image,
     required this.token,
@@ -19,6 +21,7 @@ class UserModel {
         uid: data['uid'],
         name: data['name'],
         email: data['email'],
+        phone: data['phone'],
         password: data['password'],
         image: data['image'],
         token: data['token'],
@@ -28,6 +31,7 @@ class UserModel {
         'uid': uid,
         'name': name,
         'email': email,
+        'phone': phone,
         'password': password,
         'image': image,
         'token': token,

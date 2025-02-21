@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FireStoreService {
   FireStoreService._();
 
-  static FireStoreService fireStoreService = FireStoreService._();
+  static FireStoreService service = FireStoreService._();
 
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
   String userCollection = "Users";
@@ -17,7 +17,7 @@ class FireStoreService {
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> fetchUsers() {
-    String email = AuthService.authService.currentUser?.email ?? "";
+    String email = AuthService.authServices.currentUser?.email ?? "";
     return fireStore
         .collection(userCollection)
         .where("email", isNotEqualTo: email)
@@ -25,7 +25,7 @@ class FireStoreService {
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> fetchSingleUser() async {
-    String email = AuthService.authService.currentUser!.email ?? "";
+    String email = AuthService.authServices.currentUser!.email ?? "";
     return await fireStore.collection(userCollection).doc(email).get();
   }
 
@@ -99,6 +99,25 @@ class FireStoreService {
         .doc(id)
         .update(
       {'msg': msg},
+    );
+  }
+
+  void seenChat({
+    required String sent,
+    required String receiver,
+    required String id,
+  }) async {
+    String docId = createDocId(
+      sender: sent,
+      receiver: receiver,
+    );
+    fireStore
+        .collection(chatRoomCollection)
+        .doc(docId)
+        .collection('chats')
+        .doc(id)
+        .update(
+      {'status': 'seen'},
     );
   }
 }

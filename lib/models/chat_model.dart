@@ -4,6 +4,7 @@ class ChatModal {
   String msg;
   String sender;
   String receiver;
+  String status;
   Timestamp time;
 
   ChatModal({
@@ -11,6 +12,7 @@ class ChatModal {
     required this.sender,
     required this.receiver,
     required this.time,
+    required this.status,
   });
 
   factory ChatModal.fromMap({required Map<String, dynamic> data}) => ChatModal(
@@ -18,6 +20,7 @@ class ChatModal {
         sender: data['sender'],
         receiver: data['receiver'],
         time: data['time'],
+        status: data['status'],
       );
 
   Map<String, dynamic> get toMap => {
@@ -25,5 +28,6 @@ class ChatModal {
         'sender': sender,
         'receiver': receiver,
         'time': time,
+        'status': status,
       };
 }

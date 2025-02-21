@@ -13,21 +13,23 @@ class Splashscreen extends StatelessWidget {
     Timer(
       const Duration(seconds: 3),
       () {
-        (AuthService.authService.currentUser == null)
+        (AuthService.authServices.currentUser == null)
             ? Get.offNamed(Routes.welcome)
-            : (AuthService.authService.currentUser != null)
+            : (AuthService.authServices.currentUser != null)
                 ? Get.offNamed(Routes.home)
                 : Get.offNamed(Routes.login);
       },
     );
     return Scaffold(
-      backgroundColor: const Color(0xfffbf7ed),
+      backgroundColor: const Color(0xffe1f5ff),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/gif/splanchnic.gif'),
-          ],
+        child: SizedBox(
+          width: 200,
+          height: 200,
+          child: Image.asset(
+            'assets/image/logo.png',
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
