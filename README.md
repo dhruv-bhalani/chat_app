@@ -1,8 +1,26 @@
-# Video
+
+# Chat App
+
+
+## Introduction
+
+### Chat App is an interactive real-time messaging application, providing users with a seamless and engaging communication experience. Built using Flutter, the app allows users to send messages, share media, and interact with friends or groups in real-time. It delivers a sleek, modern design, along with customizable features to enhance user interaction and ensure a smooth chat experience.
+
+## Features
+
+💬 Real-Time Messaging: Send and receive messages instantly with real-time updates. 
+
+👥 Group Chats: Create and participate in group chats to communicate with multiple users at once. 
+
+🔔 Push Notifications: Get instant notifications for new messages, ensuring you never miss an update. 
+
+🔐 Secure Authentication: User sign-up and login with secure Firebase authentication. 
+
+## Video
 
 https://github.com/user-attachments/assets/b2cad503-8114-41df-866f-4b3e7745e913
 
-# Screenshot:-
+## Screenshot:-
 
 <img src = "https://github.com/user-attachments/assets/ccc9ee84-1a2b-4531-aefe-42d1f4d883b9" width="200">
 <img src = "https://github.com/user-attachments/assets/6f130ba2-882f-4fee-bf24-cf7f8a482410" width="200">
